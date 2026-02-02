@@ -53,7 +53,7 @@ impl<'a> Migration<'a> {
 /// use turso_migrate::{up_file, Migration, Migrations};
 ///
 /// const MIGRATIONS: Migrations = Migrations::new(&[
-///     up_file!("../test-migrations/001_test.sql"),
+///     up_file!("../tests/migration-files/001_test.sql"),
 /// ]);
 /// ```
 #[macro_export]
@@ -337,7 +337,7 @@ mod test {
         let mut conn = get_in_memory_conn().await;
 
         const FILE_MIGRATIONS: Migrations =
-            Migrations::new(&[up_file!("../test-migrations/001_test.sql")]);
+            Migrations::new(&[up_file!("../tests/migration-files/001_test.sql")]);
 
         let result = FILE_MIGRATIONS.to_latest(&mut conn).await;
         assert!(result.is_ok(), "File migration failed: {:?}", result.err());
