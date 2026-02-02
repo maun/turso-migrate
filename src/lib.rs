@@ -135,7 +135,7 @@ impl<'a> Migrations<'a> {
 
             // Apply the migration logic
             let result = match migration {
-                Migration::Sql { name: _name, sql } => tx.execute(sql, ()).await.map(|_| ()),
+                Migration::Sql { name: _name, sql } => tx.execute_batch(sql).await.map(|_| ()),
                 Migration::Fn { name: _name, f } => f(&tx).await,
             };
 
@@ -238,6 +238,14 @@ mod test {
         // Verify version
         let version = get_user_version(&conn).await.unwrap();
         assert_eq!(version, 2);
+
+        // Verify tables created
+        conn.execute("INSERT INTO friend (name) VALUES ('test')", ())
+            .await
+            .unwrap();
+        conn.execute("INSERT INTO users (name) VALUES ('test')", ())
+            .await
+            .unwrap();
     }
 
     #[tokio::test]
@@ -346,8 +354,12 @@ mod test {
         let version = get_user_version(&conn).await.unwrap();
         assert_eq!(version, 1);
 
-        // Verify table exists
+        // Verify tables created
         conn.execute("INSERT INTO file_test (id) VALUES (1)", ())
+            .await
+            .unwrap();
+
+        conn.execute("INSERT INTO file_test_2 (id) VALUES (1)", ())
             .await
             .unwrap();
     }
