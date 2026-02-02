@@ -1,0 +1,15 @@
+[package]
+name = "turso-migrate"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+thiserror = "2.0.11"
+turso = "0.4.4"
+tracing = { version = "0.1", optional = true }
+
+[features]
+tracing = ["dep:tracing"]
+
+[dev-dependencies]
+tokio = { version = "1.43.0", features = ["full"] }
