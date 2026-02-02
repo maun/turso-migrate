@@ -188,14 +188,14 @@ impl<'a> Migrations<'a> {
 }
 
 async fn get_user_version(conn: &Connection) -> Result<i32, Error> {
-    let version = std::cell::Cell::new(0);
+    let version = std::sync::atomic::AtomicI32::new(0);
     conn.pragma_query("user_version", |row| {
         let v = row.get::<i32>(0).unwrap();
-        version.set(v);
+        version.store(v, std::sync::atomic::Ordering::SeqCst);
         Ok(())
     })
     .await?;
-    Ok(version.get())
+    Ok(version.load(std::sync::atomic::Ordering::SeqCst))
 }
 
 async fn set_user_version(conn: &Connection, version: i32) -> Result<(), Error> {
