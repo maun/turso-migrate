@@ -2,7 +2,7 @@
 
 A simple migration library for Turso, inspired by [rusqlite_migration](https://crates.io/crates/rusqlite_migration).
 
-Stores the number of applied migrations in the `user_version` of the sqlite/turso database.
+Stores the number of applied migrations in the `user_version` of the SQLite/Turso database.
 Supports migrations from a string, file, or Rust function. Migrations are applied in definition order, each within one transaction.
 
 ## Example
