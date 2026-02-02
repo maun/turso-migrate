@@ -1,6 +1,6 @@
 [package]
 name = "turso-migrate"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Manuel Adameit <mail@manueladameit.com>"]
 categories = ["database"]
 description = "Simple schema migration library for turso using user_version instead of an SQL table to maintain the current schema version."
